@@ -9,13 +9,16 @@ const Tabss = (props) => {
             marginLeft: '20px',
         }} defaultActiveKey="1">
             <TabPane tab="NearBy" key="1">
-                Content of Tab Pane 1
+                NearBy
             </TabPane>
             <TabPane tab="Best Rated" key="2">
-                Content of Tab Pane 2
+                Best Rated
             </TabPane>
             <TabPane tab="Cuisines" key="3">
-                Content of Tab Pane 3
+                Cuisines
+            </TabPane>
+            <TabPane tab="Recipes" key="3">
+                Recipes
             </TabPane>
         </Tabs>
     );
