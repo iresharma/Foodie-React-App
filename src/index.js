@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Row, Col, Breadcrumb, Menu, notification, Carousel } from 'antd';
+import { Row, Col, Breadcrumb, Menu, notification, Button, PageHeader, Tag, Statistic } from 'antd';
 import 'antd/dist/antd.css';
-import { LinkedinOutlined, InstagramOutlined, GithubOutlined, CloseCircleTwoTone } from '@ant-design/icons';
-import { getLocationDetails } from './functions/axiosFunc'
-
+import { LinkedinOutlined, InstagramOutlined, GithubOutlined, CloseCircleTwoTone, CodeOutlined } from '@ant-design/icons';
+import Tabss from './widgets/Tabss.jsx'
 
 // 655ca06ce2e6d6fb55be4f02dffa7f9a
 
@@ -25,17 +24,35 @@ class App extends React.Component {
         });
     };
 
+    getLocationData() {
+        axios.get('https://developers.zomato.com/api/v2.1/location_details', {
+            headers: {
+                'user-key': '655ca06ce2e6d6fb55be4f02dffa7f9a'
+            },
+            params: {
+                entity_id: localStorage.getItem('entity_id'),
+                entity_type: localStorage.getItem('entity_type')
+            }
+        }).then(({data}) => this.setState({
+            bestRatedRes: data.best_rated_restaurant,
+            nearByRes: data.nearby_res,
+            nightlifeInd: data.nightlife_index,
+            numRes: data.num_restaurant,
+            popularity: data.popularity,
+            cuisines: data.top_cuisines,
+        })).catch(error => this.openNotification(
+            'Error in getting location info',
+            'error',
+            error.message,
+            <CloseCircleTwoTone twoToneColor="#eb2f96" />
+        ));
+    }
+
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => {
-                console.log(coords)
                 if (localStorage.getItem('city')) {
-                    getLocationDetails().then(data => console.log(data)).catch(error => this.openNotification(
-                        'Error in getting location info',
-                        'error',
-                        error.message,
-                        <CloseCircleTwoTone twoToneColor="#eb2f96" />
-                    ));
+                    this.getLocationData();
                 } else {
                     axios.get('https://developers.zomato.com/api/v2.1/locations', {
                         headers: {
@@ -55,12 +72,7 @@ class App extends React.Component {
                         this.setState({
                             title: location_suggestions.title
                         })
-                        getLocationDetails().then(response => console.log(response)).catch(error => this.openNotification(
-                            'Error in getting location info',
-                            'error',
-                            error.message,
-                            <CloseCircleTwoTone twoToneColor="#eb2f96" />
-                        ));
+                        this.getLocationData();
                     }).catch(error => this.openNotification(
                         'Error in getting location info',
                         'error',
@@ -108,16 +120,16 @@ class App extends React.Component {
         const APIs = (
             <Menu>
                 <Menu.Item>
-                    <a target="_blank" style={{
+                    <a target="_blank" rel="noreferrer" style={{
                         color: 'red'
-                    }} rel="noopener noreferrer" href="https://developers.zomato.com/api">
+                    }} rel="noopener" href="https://developers.zomato.com/api">
                         Zomato API
                 </a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a target="_blank" style={{
+                    <a target="_blank" rel="noreferrer" style={{
                         color: 'green'
-                    }} rel="noopener noreferrer" href="https://spoonacular.com/food-api/">
+                    }} rel="noopener" href="https://spoonacular.com/food-api/">
                         Spoonacular API
                 </a>
                 </Menu.Item>
@@ -147,7 +159,7 @@ class App extends React.Component {
                             display: 'flex',
                             alignItems: 'center'
                         }}>
-                            <img src="static/logo.svg" height='60px' width='60px' /> &nbsp;
+                            <img src="static/logo.svg" alt="Logo" height='60px' width='60px' /> &nbsp;
                             <h1 style={{ color: '#00849F' }}>Foodie</h1>
                         </div>
                         <div>
@@ -163,12 +175,47 @@ class App extends React.Component {
                                     <a href="">Connect</a>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                    <a target="_blank" href="https://iresharma.me">Iresharma</a>
+                                    <a target="_blank" rel="noreferrer" href="https://iresharma.me">Iresharma</a>
                                 </Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                     </Col>
                 </Row>
+                <div style={{
+                    height: '90vh',
+                }}>
+                    <img src="./static/food1.jpg" height="100%" width="100%" alt="Food" />
+                    <div style={{
+                        position: 'absolute',
+                        top: '30vh',
+                        marginLeft: '30px',
+                    }}>
+                        <p style={{
+                            fontSize: 45,
+                            fontWeight: 800,
+                            width: '40%',
+                            height: '30vh',
+                            color: '#D41F00'
+                        }}>
+                            Here's a collection of restaurants around you and a few recipes as well <br />
+                            <span style={{
+                                fontSize: 30,
+                                fontWeight: 300
+                            }}>Made with <img src="./logo192.png" height="40" alt="React Logo" /> React</span> <br />
+                            <Button onClick={() => window.open('https://iresharma.me', '_blank')} type="dashed" icon={<CodeOutlined />}>Iresharma -&gt;</Button>
+                        </p>
+                    </div>
+                </div>
+                <PageHeader
+                    ghost={false}
+                    title="NearBy"
+                    subTitle={localStorage.getItem('title')}
+                    extra={[
+                        <Tag color="magenta">Nightlife: {this.state.nightlifeInd}</Tag>,
+                        <Tag color="green">Popularity: {this.state.popularity}</Tag>,
+                    ]}
+                />
+                <Tabss data={this.state} />
             </div>
         );
     }
