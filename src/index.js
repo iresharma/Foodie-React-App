@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Row, Col, Breadcrumb, Menu, notification, Button, PageHeader, Tag, Statistic } from 'antd';
+import { Row, Col, Breadcrumb, Menu, notification, Button, PageHeader, Tag, Result } from 'antd';
 import 'antd/dist/antd.css';
 import { LinkedinOutlined, InstagramOutlined, GithubOutlined, CloseCircleTwoTone, CodeOutlined } from '@ant-design/icons';
 import Tabss from './widgets/Tabss.jsx'
@@ -33,7 +33,7 @@ class App extends React.Component {
                 entity_id: localStorage.getItem('entity_id'),
                 entity_type: localStorage.getItem('entity_type')
             }
-        }).then(({data}) => this.setState({
+        }).then(({ data }) => this.setState({
             bestRatedRes: data.best_rated_restaurant,
             nearByRes: data.nearby_res,
             nightlifeInd: data.nightlife_index,
@@ -215,7 +215,13 @@ class App extends React.Component {
                         <Tag color="green">Popularity: {this.state.popularity}</Tag>,
                     ]}
                 />
-                <Tabss data={this.state} />
+                { this.state.nearByRes && <Tabss data={this.state} />}
+                <Result
+                    icon={<img src="./static/imgimg.jpg" alt="Foodie" width="50%" />}
+                    title="Here's a random foodie thought"
+                    subTitle="Sorry, you are not authorized to access this page."
+                    extra={<Button type="primary">New thought</Button>}
+                />
             </div>
         );
     }
