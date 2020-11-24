@@ -11,7 +11,9 @@ import Tabss from './widgets/Tabss.jsx'
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            trivia: 'My daily quota is over 😢'
+        };
     }
 
     openNotification = (title, type, message, icon) => {
@@ -48,7 +50,23 @@ class App extends React.Component {
         ));
     }
 
+    foodiethought() {
+        axios.get('https://api.spoonacular.com/food/trivia/random', {
+            params: {
+                apiKey: 'e2b8dec8420d4763913f56e45692667b'
+            }
+        }).then(({ data }) => this.setState({
+            trivia: data.text
+        })).catch(error => this.openNotification(
+            'Error in getting location info',
+            'error',
+            error.message,
+            <CloseCircleTwoTone twoToneColor="#eb2f96" />
+        ));
+    }
+
     componentDidMount() {
+        this.foodiethought();
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => {
                 if (localStorage.getItem('city')) {
@@ -219,8 +237,8 @@ class App extends React.Component {
                 <Result
                     icon={<img src="./static/imgimg.jpg" alt="Foodie" width="50%" />}
                     title="Here's a random foodie thought"
-                    subTitle="Sorry, you are not authorized to access this page."
-                    extra={<Button type="primary">New thought</Button>}
+                    subTitle={this.state.trivia}
+                    extra={<Button onClick={() => this.foodiethought()} type="primary">New thought</Button>}
                 />
             </div>
         );
