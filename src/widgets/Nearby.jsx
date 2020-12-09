@@ -25,7 +25,7 @@ class Nearby extends React.Component {
                     res_id: el
                 }
             }).then(({ data }) => {
-                console.log(data);
+                // console.log(data);
                 temper.push(data);
                 if (i % 4 == 0) {
                     let temp = this.state.res;
@@ -50,13 +50,13 @@ class Nearby extends React.Component {
         return (
             <div>
                 <h1>Bringing you resturants near you ♥️</h1>
-                { this.state.res.map((value, index) => {
+                { this.state.res.map((val, index) => {
                     return (
-                        <Row>
-                            { value.map((value, index) => {
+                        <Row key={index}>
+                            { val.map((value, ind) => {
                                 return (
-                                    <Col span={6}>
-                                        <ResCard data={value} />
+                                    <Col span={6} key={`${ind} + ${index} + col`}>
+                                        <ResCard data={value} key={`${ind} + ${index} + rescard`}/>
                                     </Col>
                                 );
                             })}

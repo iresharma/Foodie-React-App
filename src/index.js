@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Row, Col, Breadcrumb, Menu, notification, Button, PageHeader, Tag, Result } from 'antd';
+import { Row, Col, Breadcrumb, notification, Button, PageHeader, Tag, Result } from 'antd';
 import 'antd/dist/antd.css';
-import { LinkedinOutlined, InstagramOutlined, GithubOutlined, CloseCircleTwoTone, CodeOutlined } from '@ant-design/icons';
+import { CloseCircleTwoTone, CodeOutlined } from '@ant-design/icons';
 import Tabss from './widgets/Tabss.jsx'
+import { APIs, connect } from './Data/menuOptions'
 
 // 655ca06ce2e6d6fb55be4f02dffa7f9a
 
@@ -110,59 +111,7 @@ class App extends React.Component {
 
     render() {
 
-        const connect = (
-            <Menu>
-                <Menu.Item icon={<GithubOutlined />}>
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/iresharma">
-                        Github
-                </a>
-                </Menu.Item>
-                <Menu.Item icon={<InstagramOutlined />}>
-                    <a target="_blank" rel="noopener noreferrer" href="https://istagram.com/iresharma.py">
-                        <code>@iresharma.py</code>
-                    </a>
-                </Menu.Item>
-                <Menu.Item icon={<InstagramOutlined />}>
-                    <a target="_blank" rel="noopener noreferrer" href="https://istagram.com/watchireshstruggle">
-                        <code>@watchireshstruggle</code>
-                    </a>
-                </Menu.Item>
-                <Menu.Item icon={<LinkedinOutlined />}>
-                    <a target="_blank" rel="noopener noreferrer" href="www.linkedin.com/in/iresharma">
-                        LinkedIn
-                </a>
-                </Menu.Item>
-            </Menu>
-        );
-
-        const APIs = (
-            <Menu>
-                <Menu.Item>
-                    <a target="_blank" rel="noreferrer" style={{
-                        color: 'red'
-                    }} rel="noopener" href="https://developers.zomato.com/api">
-                        Zomato API
-                </a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noreferrer" style={{
-                        color: 'green'
-                    }} rel="noopener" href="https://spoonacular.com/food-api/">
-                        Spoonacular API
-                </a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="https://unsplash.com/developers">
-                        Unsplash API
-                </a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="https://ant.design">
-                        Antdesign
-                </a>
-                </Menu.Item>
-            </Menu>
-        );
+        
 
         return (
             <div>
@@ -187,10 +136,10 @@ class App extends React.Component {
                                     {localStorage.getItem('title')}
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item overlay={APIs}>
-                                    <a href="">APIs</a>
+                                    <a href="#">APIs</a>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item overlay={connect}>
-                                    <a href="">Connect</a>
+                                    <a href="#">Connect</a>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     <a target="_blank" rel="noreferrer" href="https://iresharma.me">Iresharma</a>

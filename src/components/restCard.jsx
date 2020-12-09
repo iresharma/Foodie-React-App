@@ -34,7 +34,7 @@ const ResCard = (props) => {
             Highlights: <br />
             {props.data.highlights.map((value, index) => {
                 return (
-                    <Tag color={index > colors.length ? colors[index % colors.length] : colors[index]}>{value}</Tag>
+                    <Tag key={`${index} ${value}`} color={index > colors.length ? colors[index % colors.length] : colors[index]}>{value}</Tag>
                 );
             })}
             <br />
